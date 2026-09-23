@@ -2,10 +2,11 @@
 layout: '../layouts/Layout.astro'
 title: 'Build your website with TMUI'
 ---
+
+export const base = import.meta.env.BASE_URL;
 import Title from '../components/Title.astro';
 import Button from '../components/Button.astro';
 export const components = { h1: Title };
 
 TMUI is a modern UI component library for Tailwind CSS.
-
-<Button label="Get Started" filled href="/docs/ja/components/button"></Button>
+<Button label="Get Started" filled href="/astro-mdx/docs/ja/components/button"></Button>

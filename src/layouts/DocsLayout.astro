@@ -5,6 +5,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import { isJapaneseEntry } from "../content/config";
 import ThemeIcon from "../components/ThemeIcon.astro";
 
+const base = import.meta.env.BASE_URL;
 const allPages = await getCollection("docs");
 const japanesePages = allPages.filter(isJapaneseEntry);
 
@@ -67,7 +68,7 @@ const { headings, ...data } = Astro.props;
                   </svg>
                 </button>
               </label>
-              <a href="/" class="flex ml-2 md:mr-24">
+              <a href={base} class="flex ml-2 md:mr-24">
                 <span
                   style="font-family: 'Righteous', cursive;"
                   class="self-center text-3xl font-semibold sm:text-4xl whitespace-nowrap dark:text-white"
@@ -91,7 +92,7 @@ const { headings, ...data } = Astro.props;
             japanesePages.map((item) => (
               <li>
                 <a
-                  href={"/docs/" + item.slug}
+                  href={base + "docs/" + item.slug}
                   class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <span class="ml-3">{item.data.title}</span>
