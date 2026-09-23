@@ -1,0 +1,60 @@
+---
+const { label, checked = false, disabled = false, indeterminate = false, id } = Astro.props;
+
+const containerClasses = `peer appearance-none relative mx-[11px] my-[11px] h-[18px] w-[18px] enabled:cursor-pointer rounded-sm border-2 transition-all focus:ring-transparent`;
+const stateLayerClasses = `before:content-[''] before:absolute before:top-2/4 before:left-2/4 before:h-[40px] before:w-[40px] before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:opacity-0 before:transition-opacity before:pointer-events-none before:enabled:hover:opacity-[.08] before:enabled:focus:opacity-[.12] before:scale-100 before:transition-transform before:duration-200 active:before:scale-0 active:before:duration-0 before:checked:enabled:hover:opacity-[.08] before:checked:enabled:focus:opacity-[.12]`;
+const targetClasses = `after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:h-[48px] after:w-[48px] after:-translate-y-2/4 after:-translate-x-2/4 after:rounded-full after:opacity-0 after:enabled:cursor-pointer`;
+const colorClasses = `border-on-surface bg-transparent checked:bg-primary checked:border-primary indeterminate:bg-primary indeterminate:border-primary hover:before:bg-on-surface checked:hover:before:bg-primary focus:before:bg-on-surface checked:focus:before:bg-primary indeterminate:hover:before:bg-primary indeterminate:focus:before:bg-primary disabled:checked:bg-on-surface/[.38] disabled:indeterminate:bg-on-surface/[.38] disabled:border-on-surface/[.38] disabled:checked:border-on-surface/[0] disabled:indeterminate:border-on-surface/[0]`;
+const darkClasses = `dark:border-on-surface-dark dark:bg-transparent dark:checked:bg-primary-dark dark:checked:border-primary-dark dark:indeterminate:bg-primary-dark dark:indeterminate:border-primary-dark dark:hover:before:bg-on-surface-dark dark:checked:hover:before:bg-primary-dark dark:focus:before:bg-on-surface-dark dark:checked:focus:before:bg-primary-dark dark:indeterminate:hover:before:bg-primary-dark dark:indeterminate:focus:before:bg-primary-dark dark:disabled:checked:bg-on-surface-dark/[.38] dark:disabled:indeterminate:bg-on-surface-dark/[.38] dark:disabled:border-on-surface-dark/[.38] dark:disabled:checked:border-on-surface-dark/[0] dark:disabled:indeterminate:border-on-surface-dark/[0]`;
+const inputClasses = [
+  containerClasses,
+  stateLayerClasses,
+  targetClasses,
+  colorClasses,
+  darkClasses,
+].join(" ");
+const iconCheckedClasses = `absolute top-[11px] left-[11px] h-[18px] w-[18px] pointer-events-none fill-transparent peer-checked:fill-on-primary peer-disabled:peer-checked:fill-surface dark:peer-checked:fill-on-primary-dark dark:peer-disabled:peer-checked:fill-surface-dark`;
+const iconIndeterminateClasses =
+  "absolute top-[11px] left-[11px] h-[18px] w-[18px] pointer-events-none fill-transparent peer-indeterminate:fill-on-primary peer-disabled:peer-indeterminate:fill-surface dark:peer-indeterminate:fill-on-primary-dark dark:peer-disabled:peer-indeterminate:fill-surface-dark";
+const inputId = id
+  ? id
+  : "input-checkbox-" +
+    Array.from(crypto.getRandomValues(new Uint8Array(4)))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+---
+
+<label class="relative inline-flex items-center">
+  <input
+    type="checkbox"
+    class={inputClasses}
+    checked={checked}
+    disabled={disabled}
+    data-indeterminate={indeterminate}
+    id={inputId}
+  />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class={iconCheckedClasses}
+  >
+    <title>check</title>
+    <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
+  </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class={iconIndeterminateClasses}
+  >
+    <title>minus</title>
+    <path d="M19,13H5V11H19V13Z"></path>
+  </svg>
+  {label && <label for={inputId} class="peer-enabled:cursor-pointer">{label}</label>}
+</label>
+
+<script>
+    const elements = document.querySelectorAll('input[data-indeterminate]');
+    if (elements) {
+        elements.forEach(element => { (element as HTMLInputElement).indeterminate = true; });
+    }
+</script>

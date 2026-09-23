@@ -1,0 +1,141 @@
+---
+const {
+  label,
+  href,
+  disabled = false,
+  elevated = true,
+  filled = false,
+  tonal = false,
+  outlined = false,
+  text = false,
+} = Astro.props;
+
+const elevationLevel = filled || outlined || text ? 0 : 1;
+const isElevated = elevated && !filled && !outlined && !text;
+const classList = [
+  "peer",
+  "relative",
+  "font-bold",
+  "h-10",
+  "px-4",
+  "rounded-full",
+  "outline-none",
+  "ease-linear",
+  "transition-all",
+  "duration-150",
+  "before:content['']",
+  "before:absolute",
+  "before:inset-0",
+  "before:block",
+  "before:rounded-full",
+  "before:scale-100",
+  "before:transition-transform",
+  "before:duration-150",
+  "active:before:scale-0",
+  "active:before:duration-0",
+  "disabled:shadow-none",
+  "disabled:text-on-surface/[.38]",
+  "dark:disabled:text-on-surface-dark/[.38]",
+  {
+    border: outlined,
+    "shadow-none": elevationLevel == 0,
+    "enabled:hover:shadow": !text && elevationLevel == 0,
+    shadow: elevationLevel == 1,
+    "enabled:hover:shadow-md": elevationLevel == 1,
+    "shadow-shadow/50": elevationLevel == 1,
+    "enabled:hover:shadow-shadow/50": !text,
+    "dark:enabled:hover:shadow-shadow-dark/50": !text,
+    "bg-surface-container-low": isElevated,
+    "text-primary": isElevated || outlined || text,
+    "before:bg-primary/[0]": isElevated || text,
+    "before:enabled:hover:bg-primary/[.08]": isElevated || text || outlined,
+    "before:enabled:focus:bg-primary/[.12]": isElevated || text || outlined,
+    "dark:bg-surface-container-low-dark": isElevated,
+    "dark:text-primary-dark": isElevated || outlined || text,
+    "dark:shadow-shadow-dark/50": isElevated,
+    "before:dark:bg-primary-dark/[0]": isElevated || text || outlined,
+    "before:dark:enabled:hover:bg-primary-dark/[.08]": isElevated || text || outlined,
+    "before:dark:enabled:focus:bg-primary-dark/[.12]": isElevated || text || outlined,
+    "bg-primary": filled && !tonal,
+    "text-on-primary": filled && !tonal,
+    "before:bg-on-primary/[0]": (filled && !tonal) || outlined,
+    "before:enabled:hover:bg-on-primary/[.08]": filled && !tonal,
+    "before:enabled:focus:bg-on-primary/[.12]": filled && !tonal,
+    "dark:bg-primary-dark": filled && !tonal,
+    "dark:text-on-primary-dark": filled && !tonal,
+    "before:dark:bg-on-primary-dark/[0]": filled && !tonal,
+    "before:dark:enabled:hover:bg-on-primary-dark/[.08]": filled && !tonal,
+    "before:dark:enabled:focus:bg-on-primary-dark/[.12]": filled && !tonal,
+    "bg-secondary-container": filled && tonal,
+    "text-on-secondary-container": filled && tonal,
+    "before:bg-on-secondary-container/[0]": filled && tonal,
+    "before:enabled:hover:bg-on-secondary-container/[.08]": filled && tonal,
+    "before:enabled:focus:bg-on-secondary-container/[.12]": filled && tonal,
+    "dark:bg-secondary-container-dark": filled && tonal,
+    "dark:text-on-secondary-container-dark": filled && tonal,
+    "before:dark:bg-on-secondary-container-dark/[0]": filled && tonal,
+    "before:dark:enabled:hover:bg-on-secondary-container-dark/[.08]": filled && tonal,
+    "before:dark:enabled:focus:bg-on-secondary-container-dark/[.12]": filled && tonal,
+    "border-outline": outlined,
+    "enabled:focus:border-primary": outlined,
+    "disabled:bg-on-surface/[.12]": !outlined,
+    "dark:disabled:bg-on-surface-dark/[.12]": !outlined,
+    "dark:disabled:text-on-surface-dark/[.38]": !outlined,
+    "disabled:border-outline/[.12]": outlined,
+    "dark:border-outline-dark": outlined,
+    "dark:enabled:focus:border-primary-dark": outlined,
+    "dark:disabled:border-outline-dark/[.12]": outlined,
+    "inline-flex": href,
+    "no-underline": href,
+    "hover:shadow": (href && !disabled) && (!text && elevationLevel == 0),
+    "hover:shadow-md": (href && !disabled) && elevationLevel == 1,
+    "hover:shadow-shadow/50": (href && !disabled) && !text,
+    "dark:hover:shadow-shadow-dark/50": (href && !disabled) && !text,
+    "before:hover:bg-primary/[.08]": (href && !disabled) && (isElevated || text || outlined),
+    "before:focus:bg-primary/[.12]": (href && !disabled) && (isElevated || text || outlined),
+    "before:dark:hover:bg-primary-dark/[.08]": (href && !disabled) && (isElevated || text || outlined),
+    "before:dark:focus:bg-primary-dark/[.12]": (href && !disabled) && (isElevated || text || outlined),
+    "before:hover:bg-on-primary/[.08]": (href && !disabled) && (filled && !tonal),
+    "before:focus:bg-on-primary/[.12]": (href && !disabled) && (filled && !tonal),
+    "before:dark:hover:bg-on-primary-dark/[.08]": (href && !disabled) && (filled && !tonal),
+    "before:dark:focus:bg-on-primary-dark/[.12]": (href && !disabled) && (filled && !tonal),
+    "before:hover:bg-on-secondary-container/[.08]": (href && !disabled) && (filled && tonal),
+    "before:focus:bg-on-secondary-container/[.12]": (href && !disabled) && (filled && tonal),
+    "before:dark:hover:bg-on-secondary-container-dark/[.08]": (href && !disabled) && (filled && tonal),
+    "before:dark:focus:bg-on-secondary-container-dark/[.12]": (href && !disabled) && (filled && tonal),
+    "focus:border-primary": (href && !disabled) && outlined,
+    "dark:focus:bg-primary-dark/[.12]": (href && !disabled) && outlined,
+    "dark:focus:border-primary-dark": (href && !disabled) && outlined
+  },
+];
+---
+
+{
+  (href && !disabled) ? (
+    <a class:list={classList} href={href} role="button">
+      <span class="whitespace-nowrap flex items-center">
+        {Astro.slots.has("icon") && (
+          <span class="w-[1.125rem] h-[1.125rem] fill-current">
+            <slot name="icon" />
+          </span>
+        )}
+        <span class="px-2">
+          <slot>{label}</slot>
+        </span>
+      </span>
+    </a>
+  ) : (
+    <button class:list={classList} type="button" disabled={disabled}>
+      <span class="whitespace-nowrap flex items-center">
+        {Astro.slots.has("icon") && (
+          <span class="w-[1.125rem] h-[1.125rem] fill-current">
+            <slot name="icon" />
+          </span>
+        )}
+        <span class="px-2">
+          <slot>{label}</slot>
+        </span>
+      </span>
+    </button>
+  )
+}

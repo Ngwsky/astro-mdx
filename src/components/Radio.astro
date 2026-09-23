@@ -1,0 +1,43 @@
+---
+const { label, checked = false, disabled = false, name, value, id } = Astro.props;
+
+const containerClasses = `peer appearance-none relative mx-[10px] my-[10px] h-[20px] w-[20px] enabled:cursor-pointer rounded-full border-none transition-all focus:ring-transparent`;
+const stateLayerClasses = `before:content-[''] before:absolute before:top-2/4 before:left-2/4 before:h-[40px] before:w-[40px] before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:opacity-0 before:transition-opacity before:pointer-events-none before:enabled:hover:opacity-[.08] focus:enabled:before:opacity-[.12] before:scale-100 before:transition-transform before:duration-200 active:before:scale-0 active:before:duration-0 hover:enabled:checked:before:opacity-[.08] focus:enabled:checked:before:opacity-[.12]`;
+const targetClasses = `after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:h-[48px] after:w-[48px] after:-translate-y-2/4 after:-translate-x-2/4 after:rounded-full after:opacity-0 after:enabled:cursor-pointer`;
+const colorClasses = `before:hover:bg-on-surface before:checked:hover:bg-primary before:focus:bg-on-surface before:checked:focus:bg-primary`;
+const darkClasses = `before:dark:hover:bg-on-surface-dark before:checked:dark:hover:bg-primary-dark before:dark:focus:bg-on-surface-dark before:checked:dark:focus:bg-primary-dark`;
+const inputClasses = [
+  containerClasses,
+  stateLayerClasses,
+  targetClasses,
+  colorClasses,
+  darkClasses
+].join(" ");
+const iconCheckedClasses = `absolute top-2 left-2 h-[24px] w-[24px] pointer-events-none hidden fill-transparent peer-checked:block peer-checked:fill-primary peer-disabled:peer-checked:fill-on-surface/[.38] dark:peer-checked:fill-primary-dark dark:peer-disabled:peer-checked:fill-on-surface-dark/[.38]`;
+const iconUncheckedClasses = `absolute top-2 left-2 h-[24px] w-[24px] pointer-events-none fill-on-surface-variant dark:fill-on-surface-variant-dark peer-checked:hidden peer-checked:fill-transparent peer-disabled:fill-on-surface/[.38] peer-disabled:peer-checked:fill-transparent dark:peer-disabled:fill-on-surface-dark/[.38] dark:peer-disabled:peer-checked:fill-transparent`;
+const inputId = id
+  ? id
+  : "input-radio-" +
+    Array.from(crypto.getRandomValues(new Uint8Array(4)))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+---
+
+<label class="relative inline-flex items-center">
+  <input
+    type="radio"
+    name={name}
+    value={value}
+    class={inputClasses}
+    checked={checked}
+    disabled={disabled}
+    id={inputId}
+  />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class={iconCheckedClasses}>
+    <title>radiobox-marked</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7Z" />
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class={iconUncheckedClasses}>
+    <title>radiobox-blank</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+  </svg>
+  {label && <label for={inputId} class="peer-enabled:cursor-pointer">{label}</label>}
+</label>

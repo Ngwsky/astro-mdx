@@ -1,0 +1,14 @@
+<div class="p-2 bg-neutral-700/5 border rounded">
+    <div class="p-0.5 bg-radial-gradient">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .bg-radial-gradient {
+        --dot-distance: 10px;
+        background-image: radial-gradient(rgba(128, 128, 128, .5) .75px, transparent 0);
+        background-position: 6px 6px;
+        background-size: var(--dot-distance) var(--dot-distance);
+    }
+</style>

@@ -1,0 +1,13 @@
+---
+import { Code } from 'astro/components';
+import Background from '../components/Background.astro';
+import formatter from 'html-prettify';
+
+const { classes } = Astro.props;
+
+const htmlCode = await Astro.slots.render('default');
+---
+<Background>
+    <div class={classes} set:html={htmlCode} />
+</Background>
+<Code code={formatter(htmlCode)} lang="html" />

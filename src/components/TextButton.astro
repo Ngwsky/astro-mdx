@@ -1,0 +1,23 @@
+---
+import RenderWithCode from "../components/RenderWithCode.astro";
+import Button from "../components/Button.astro";
+---
+
+<RenderWithCode classes="p-2 inline-flex items-center gap-2">
+  <Button text>Button</Button>
+  <Button text>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" slot="icon">
+      <title>plus</title>
+      <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"></path>
+    </svg>
+    Icon
+  </Button>
+  <Button text disabled>Disabled</Button>
+  <Button text disabled>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" slot="icon">
+      <title>minus</title>
+      <path d="M19,13H5V11H19V13Z"></path>
+    </svg>
+    Icon
+  </Button>
+</RenderWithCode>

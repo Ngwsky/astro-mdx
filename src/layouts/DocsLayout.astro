@@ -1,0 +1,111 @@
+---
+import "../styles.css";
+import type { MarkdownHeading } from "astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { isJapaneseEntry } from "../content/config";
+import ThemeIcon from "../components/ThemeIcon.astro";
+
+const allPages = await getCollection("docs");
+const japanesePages = allPages.filter(isJapaneseEntry);
+
+type Props = CollectionEntry<"docs">["data"] & {
+  headings: MarkdownHeading[];
+};
+
+const { headings, ...data } = Astro.props;
+// const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// const currentPage = Astro.url.pathname;
+// const currentFile = `src/content/docs${currentPage.replace(/\/$/, '')}.md`;
+---
+
+<html dir={data.dir} lang={data.lang} class="initial">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{data.title}</title>
+  </head>
+  <body class="bg-surface dark:bg-surface-dark">
+    <header>
+      <nav
+        class="fixed top-0 z-50 w-full bg-surface-container dark:bg-surface-container-dark"
+      >
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start">
+              <input
+                id="nav-drawer-toggle"
+                type="checkbox"
+                class="absolute h-0 w-0 appearance-none opacity-0"
+              />
+              <label for="nav-drawer-toggle" class="btn btn-square btn-ghost">
+                <button
+                  aria-controls="logo-sidebar"
+                  type="button"
+                  class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                >
+                  <span class="sr-only">Open sidebar</span>
+                  <svg
+                    class="w-6 h-6"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      fill-rule="evenodd"
+                      d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                    ></path>
+                  </svg>
+                </button>
+              </label>
+              <a href="/" class="flex ml-2 md:mr-24">
+                <span
+                  style="font-family: 'Righteous', cursive;"
+                  class="self-center text-3xl font-semibold sm:text-4xl whitespace-nowrap dark:text-white"
+                  >TMUI</span
+                >
+              </a>
+            </div>
+            <ThemeIcon />
+          </div>
+        </div>
+      </nav>
+    </header>
+    <aside
+      id="nav-drawer"
+      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-surface-container dark:bg-surface-container-dark sm:translate-x-0"
+      aria-label="Sidebar"
+    >
+      <div class="h-full px-3 pb-4 overflow-y-auto">
+        <ul class="space-y-2">
+          {
+            japanesePages.map((item) => (
+              <li>
+                <a
+                  href={"/docs/" + item.slug}
+                  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <span class="ml-3">{item.data.title}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </aside>
+    <main
+      class="p-4 sm:ml-64 mt-14 prose dark:prose-invert max-w-none bg-surface dark:bg-surface-dark dark:text-white"
+    >
+      <slot />
+    </main>
+  </body>
+</html>

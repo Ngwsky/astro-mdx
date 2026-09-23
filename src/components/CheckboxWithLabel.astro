@@ -1,0 +1,11 @@
+---
+import RenderWithCode from "../components/RenderWithCode.astro";
+import Checkbox from "../components/Checkbox.astro";
+---
+
+<RenderWithCode classes="p-2 inline-flex items-center gap-2">
+  <Checkbox label="with Label" checked />
+  <Checkbox label="Disabled" disabled />
+  <Checkbox label="Checked Disabled" checked disabled />
+  <Checkbox label="Indeterminate Disabled" indeterminate disabled />
+</RenderWithCode>
